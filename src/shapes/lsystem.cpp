@@ -88,16 +88,24 @@ BBox LSystem::ObjectBound() const {
     //return objectBounds;
 }
 
+#include "transform.h"
 void LSystem::Refine(vector<Reference<Shape> > &refined) const {
    /* for (int i = 0; i < ntris; ++i)
         refined.push_back(new Triangle(ObjectToWorld,
                           WorldToObject, ReverseOrientation,
                           (TriangleMesh *)this, i));*/
-    float radius = 25.0;
+    float radius = 15.0;
     float zmin = 0.0;
     float zmax = 90.0;
     float phimax = 360.0;
     refined.push_back(new Cylinder(ObjectToWorld, WorldToObject, ReverseOrientation, 
+    	radius, zmin, zmax, phimax));
+    radius = 5.0;
+    zmax = 130.0;
+
+    const Transform &o2w = *ObjectToWorld;
+    Transform *identity;
+    refined.push_back(new Cylinder(ObjectToWorld,WorldToObject, ReverseOrientation, 
     	radius, zmin, zmax, phimax));
 }
 
