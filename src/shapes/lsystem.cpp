@@ -14,12 +14,15 @@
 using namespace std;
 
 LSystem::LSystem(const Transform *o2w, const Transform *w2o, bool ro,
-	string a, map<char, string> r) : Shape(o2w, w2o, ro) {
+	string a, map<char, string> r, int s, float d) : Shape(o2w, w2o, ro) {
 	axiom = a;
 	rules = r;
+	steps = s;
+	delta = d;
+	generate();
 }
 
-/*string toupper(string s){
+string toupper(string s){
 	int c = 0;
 	std::vector<char> ruleChars;
 	string ret ("");
@@ -37,7 +40,7 @@ string tolower(string s){
 	}
 	return ret;
 }
-*/
+
 //ABAAB
 //abBababB
 //abaababa
@@ -46,17 +49,17 @@ string tolower(string s){
 * Applying a rule means taking the string and making the appropriate substitutions.
 */
 void LSystem::apply_rule(string &tmp, char key, string value){
-/*	size_t len = value.length();
+	size_t len = value.length();
 
 	for(size_t i=0; i<tmp.length(); i++){
 		if(tmp[i]==key){
 			tmp = tmp.substr(0,i) + tolower(value) + tmp.substr(i+1,tmp.length());
 		}
-	}*/
+	}
 }
 
-void LSystem::generate(int steps, float delta){
-/*	map<char,string>::iterator it;
+void LSystem::generate(){
+	map<char,string>::iterator it;
 	cout << steps << " " << delta << "\n";
 	string str;
 	str = axiom;
@@ -70,8 +73,7 @@ void LSystem::generate(int steps, float delta){
 		str = toupper(str);
 		cout << str << endl;
 	}
-	cout << "output: " << str << "\n";*/
-	
+	cout << "output: " << str << "\n";
 }
 
 BBox LSystem::ObjectBound() const {
@@ -106,6 +108,8 @@ LSystem *CreateLSystemShape(const Transform *o2w, const Transform *w2o,
 
 	string axiom = params.FindOneString("axiom", "B");
 	const string *rules = params.FindString("rules",&nr);
+	int steps = params.FindOneInt("steps", 1);
+	float delta = params.FindOneFloat("delta", 60);
 	
 	char key;
 	string val;
@@ -116,5 +120,5 @@ LSystem *CreateLSystemShape(const Transform *o2w, const Transform *w2o,
 		rule_map[key] = val;
 		cout << rule_map[key] << endl;
 	}
-	return new LSystem(o2w,w2o,reverseOrientation,axiom,rule_map);
+	return new LSystem(o2w,w2o,reverseOrientation,axiom,rule_map,steps,delta);
 }

@@ -35,7 +35,7 @@ AttributeBegin
   #Translate 0 15 30 
   #Rotate 90 0 0 0
 
-  Shape "lsystem" "string axiom" ["BB"] "string rules" ["A->AB" "B->A"]
+  Shape "lsystem" "string axiom" ["BB"] "string rules" ["A->AB" "B->A"] "integer steps" [6] "float delta" [90]
 AttributeEnd
 
 WorldEnd

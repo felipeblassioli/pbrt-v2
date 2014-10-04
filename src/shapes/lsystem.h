@@ -49,7 +49,7 @@ class LSystem : public Shape {
 public:
     // LSystem Public Methods
     LSystem(const Transform *o2w, const Transform *w2o, bool ro, 
-        string a, map<char, string> r);
+        string a, map<char, string> r,int s, float d);
     BBox ObjectBound() const;
     bool CanIntersect() const { return false; }
     void Refine(vector<Reference<Shape> > &refined) const;
@@ -57,8 +57,10 @@ protected:
     // LSystem Private Data
     string axiom;
     map<char, string> rules;
+    int steps;
+    float delta;
 
-    void generate(int steps, float delta);
+    void generate();
     void apply_rule(string &buffer, char key, string value);
 };
 
