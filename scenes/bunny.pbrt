@@ -19,11 +19,11 @@ Rotate 90 1 0 0
 Shape "disk" "float radius" [.25]
 AttributeEnd
 
-Material "matte" "color Kd" [.4 .42 .4]
-Shape "trianglemesh" "point P" [ -1 0 -1 1 0 -1 1 0 1 -1 0 1 ]
-	"integer indices" [ 0 1 2 2 3 0]
+#Material "matte" "color Kd" [.4 .42 .4]
+#Shape "trianglemesh" "point P" [ -1 0 -1 1 0 -1 1 0 1 -1 0 1 ]
+#	"integer indices" [ 0 1 2 2 3 0]
 
-Material "measured" "string filename" "brdfs/mystique.brdf"
+#Material "measured" "string filename" "brdfs/mystique.brdf"
 
 Include "geometry/bunny.pbrt"
 

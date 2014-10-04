@@ -109,6 +109,7 @@
 #include "shapes/paraboloid.h"
 #include "shapes/sphere.h"
 #include "shapes/trianglemesh.h"
+#include "shapes/lsystem.h"
 #include "textures/bilerp.h"
 #include "textures/checkerboard.h"
 #include "textures/constant.h"
@@ -349,6 +350,9 @@ Reference<Shape> MakeShape(const string &name,
                                   paramSet);
     else if (name == "nurbs")
         s = CreateNURBSShape(object2world, world2object, reverseOrientation,
+                             paramSet);
+    else if (name == "lsystem")
+        s = CreateLSystemShape(object2world, world2object, reverseOrientation,
                              paramSet);
     else
         Warning("Shape \"%s\" unknown.", name.c_str());
