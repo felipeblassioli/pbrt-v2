@@ -1,41 +1,18 @@
-#LookAt 0 10 200   0 -1 0 0 1 0
-LookAt 0 500 50   0 0 0  0 1 0
+LookAt 70 70 70 0 0 0 0 0 1 # Good for 3D models - manipulating the first coordinates zooms the camera
+Camera "perspective" "float fov" [40]
 
-Camera "perspective" "float fov" [30]
-#LookAt 0 .2 .2    -.02 .1 0  0 1 0
-#Camera "perspective" "float fov" [30]
+Film "image" "integer xresolution" [1500] "integer yresolution" [1500]
+  "string filename" ["lsystem.png"]
 
-#PixelFilter "mitchell" "float xwidth" [2] "float ywidth" [2]
-#Sampler "bestcandidate"
-Film "image" "string filename" ["teste3.png"]
-     "integer xresolution" [400] "integer yresolution" [400]
+Sampler "lowdiscrepancy" "integer pixelsamples" [32]
 
 WorldBegin
-AttributeBegin
-  CoordSysTransform "camera"
-  LightSource "distant"
-              "point from" [0 0 0] "point to"   [0 0 1]
-              "rgb L"    [3 3 3]
-AttributeEnd
+  LightSource "distant" "point from" [0.3 1 0.3] "point to" [0 0 0]
 
-AttributeBegin
-  #Translate 50 0 0 
-  Rotate 120 0 1 0
+  AttributeBegin
 
-  Texture "checks" "spectrum" "checkerboard"
-          "float uscale" [4] "float vscale" [4]
-          "rgb tex1" [1 0 0] "rgb tex2" [0 0 1]
-  Material "matte"
-           "texture Kd" "checks"
-  #Shape "disk" "float radius" [25] "float height" [-1]
-  Shape "cylinder" "float radius" [5] "float zmin" [0] "float zmax" [50]
-AttributeEnd
+    Shape "lsystem" "string axiom" ["A"] "string rules" ["A->[&FL!A]/////`[&FL!A]///////`[&FL!A]" "F->S ///// F" "L->[```^^{-f+f+f-|-f+f+f}]" "S->F L"] "integer steps" [7] "float delta" [22.5]
 
-AttributeBegin
-  #Translate 0 15 30 
-  #Rotate 90 0 0 0
-
-  Shape "lsystem" "string axiom" ["BB"] "string rules" ["A->AB" "B->A"] "integer steps" [6] "float delta" [90]
-AttributeEnd
+  AttributeEnd
 
 WorldEnd

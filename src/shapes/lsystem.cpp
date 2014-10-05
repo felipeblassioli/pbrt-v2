@@ -22,58 +22,32 @@ LSystem::LSystem(const Transform *o2w, const Transform *w2o, bool ro,
 	generate();
 }
 
-string toupper(string s){
-	int c = 0;
-	std::vector<char> ruleChars;
-	string ret ("");
-	for(size_t i=0;i<s.length();i++){
-		ret += toupper(s[i]);
-	}
-	return ret;
-}
-string tolower(string s){
-	int c = 0;
-	std::vector<char> ruleChars;
-	string ret ("");
-	for(size_t i=0;i<s.length();i++){
-		ret += tolower(s[i]);
-	}
-	return ret;
-}
-
-//ABAAB
-//abBababB
-//abaababa
-/**
-* Rules are a (key,val) pair: A->A+A
-* Applying a rule means taking the string and making the appropriate substitutions.
-*/
-void LSystem::apply_rule(string &tmp, char key, string value){
-	size_t len = value.length();
-
-	for(size_t i=0; i<tmp.length(); i++){
-		if(tmp[i]==key){
-			tmp = tmp.substr(0,i) + tolower(value) + tmp.substr(i+1,tmp.length());
-		}
-	}
-}
-
 void LSystem::generate(){
 	map<char,string>::iterator it;
-	cout << steps << " " << delta << "\n";
-	string str;
-	str = axiom;
+	bool found;
 
-	cout << "axiom: " << axiom << "\n";	
-	str = toupper(str);
-	for(int i=0; i<steps;i++){
-		for(it = rules.begin(); it != rules.end(); ++it){
-			apply_rule(str, it->first, it->second);
+	cout << "# axiom: " << axiom << endl;
+	string current = axiom;
+	string next = "";
+	for(int i=0;i<steps;i++){
+		for(size_t j=0; j<current.length();j++){
+			found = false;
+			for(it = rules.begin(); it != rules.end(); ++it){
+				if(current[j] == it->first){
+					next = next + it->second;
+					found = true;
+					break;
+				}
+			}
+			if(!found){
+				next = next + current[j];
+			}
 		}
-		str = toupper(str);
-		cout << str << endl;
+		current = next;
+		next = "";
+		cout << "# " << current << endl;
 	}
-	cout << "output: " << str << "\n";
+	generated_system = current;
 }
 
 BBox LSystem::ObjectBound() const {
@@ -81,32 +55,73 @@ BBox LSystem::ObjectBound() const {
     float radius,zmin,zmax;
     radius = 5.0;
     zmin = 0.0;
-    zmax = 90.0;
+    zmax = 190.0;
     Point p1 = Point(-radius, -radius, zmin);
     Point p2 = Point( radius,  radius, zmax);
     return BBox(p1, p2);
     //return objectBounds;
 }
 
-#include "transform.h"
-void LSystem::Refine(vector<Reference<Shape> > &refined) const {
-   /* for (int i = 0; i < ntris; ++i)
-        refined.push_back(new Triangle(ObjectToWorld,
-                          WorldToObject, ReverseOrientation,
-                          (TriangleMesh *)this, i));*/
-    float radius = 15.0;
-    float zmin = 0.0;
-    float zmax = 90.0;
-    float phimax = 360.0;
-    refined.push_back(new Cylinder(ObjectToWorld, WorldToObject, ReverseOrientation, 
-    	radius, zmin, zmax, phimax));
-    radius = 5.0;
-    zmax = 130.0;
 
-    const Transform &o2w = *ObjectToWorld;
-    Transform *identity;
-    refined.push_back(new Cylinder(ObjectToWorld,WorldToObject, ReverseOrientation, 
-    	radius, zmin, zmax, phimax));
+void LSystem::Refine(vector<Reference<Shape> > &refined) const {
+
+}
+
+#include "api.h"
+#include "paramset.h"
+void makePBRTSceneFile(string lsystem, float delta){
+	ParamSet params;
+	float cylRadius = 1.0;
+	float drawSize = 1.0;
+	float shrinkFactor = 1.4;
+	float zero = 0.0;
+
+	for(size_t i=0; i<lsystem.length(); i++){
+		switch(lsystem[i]){
+			case 'F':
+			case 'f':
+				params.AddFloat("radius", &cylRadius, 1);
+				params.AddFloat("zmin", &zero,1);
+				params.AddFloat("zmax", &drawSize,1);
+				pbrtShape("cylinder", params);
+				pbrtTranslate(0.0, 0.0, drawSize);
+				break;
+			case '+':
+				pbrtRotate(delta, 0.0, 1.0, 0.0);
+				break;
+			case '-':
+				pbrtRotate(-delta, 0.0, 1.0, 0.0);
+				break;
+			case '&':
+				pbrtRotate(delta, 1.0, 0.0, 0.0);
+				break;
+			case '^':
+				pbrtRotate(-delta, 1.0, 0.0, 0.0);
+				break;
+			case '\\':
+				pbrtRotate(delta, 0.0, 0.0, 1.0);
+				break;
+			case '/':
+				pbrtRotate(-delta, 0.0, 0.0, 1.0);
+				break;
+			case '|':
+				pbrtRotate(180.0, 0.0, 1.0, 0.0);
+				break;
+			case '[':
+				cylRadius = cylRadius / shrinkFactor;
+				pbrtAttributeBegin();
+				pbrtTranslate(0.0, 0.0, cylRadius);
+				break;
+			case ']':
+				cylRadius = cylRadius * shrinkFactor;
+				pbrtAttributeEnd();
+				break;
+			default:
+			// Ignoring symbol
+
+			break;
+		}
+	}
 }
 
 LSystem *CreateLSystemShape(const Transform *o2w, const Transform *w2o,
@@ -128,5 +143,7 @@ LSystem *CreateLSystemShape(const Transform *o2w, const Transform *w2o,
 		rule_map[key] = val;
 		cout << rule_map[key] << endl;
 	}
-	return new LSystem(o2w,w2o,reverseOrientation,axiom,rule_map,steps,delta);
+	LSystem *s = new LSystem(o2w,w2o,reverseOrientation,axiom,rule_map,steps,delta);
+	makePBRTSceneFile(s->generated_system, s->delta);
+	return s;
 }

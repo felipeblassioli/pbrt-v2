@@ -53,15 +53,15 @@ public:
     BBox ObjectBound() const;
     bool CanIntersect() const { return false; }
     void Refine(vector<Reference<Shape> > &refined) const;
+    string generated_system;
+    float delta;
 protected:
     // LSystem Private Data
     string axiom;
     map<char, string> rules;
     int steps;
-    float delta;
 
     void generate();
-    void apply_rule(string &buffer, char key, string value);
 };
 
 
