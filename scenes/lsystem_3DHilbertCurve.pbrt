@@ -2,7 +2,7 @@ LookAt 70 70 70 0 0 0 0 0 1 # Good for 3D models - manipulating the first coordi
 Camera "perspective" "float fov" [40]
 
 Film "image" "integer xresolution" [1500] "integer yresolution" [1500]
-  "string filename" ["lsystem.png"]
+  "string filename" ["lsystem_3dHilbertCurve.png"]
 
 Sampler "lowdiscrepancy" "integer pixelsamples" [32]
 
@@ -11,7 +11,7 @@ WorldBegin
 
   AttributeBegin
 
-    Shape "lsystem" "string axiom" ["A"] "string rules" ["A->[&FL!A]/////`[&FL!A]///////`[&FL!A]" "F->S ///// F" "L->[```^^{-f+f+f-|-f+f+f}]" "S->F L"] "integer steps" [7] "float delta" [22.5]
+    Shape "lsystem" "string axiom" ["A"] "string rules" ["A->B-F+CFC+F-D&F^D-F+&&CFC+F+B//" "B->A&F^CFB^F^D^^-F-D^|F^B|FC^F^A//" "C->|D^|F^B-F+C^F^A&&FA&F^C+F+B^F^D//" "D->|CFB-F+B|FA&F^A&&FB-F+B|FC//"] "integer steps" [3] "float delta" [90.0] "float cylinderRadius" [0.1]
 
   AttributeEnd
 

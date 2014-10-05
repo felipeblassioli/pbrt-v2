@@ -1,15 +1,8 @@
-// replacing in a string
-
 #include "stdafx.h"
 #include "shapes/lsystem.h"
 #include "shapes/cylinder.h"
 #include "paramset.h"
 #include <iostream>
-/*
-#include <iostream>
-#include <string>
-#include <vector>
-#include <map>*/
 
 using namespace std;
 
@@ -69,9 +62,8 @@ void LSystem::Refine(vector<Reference<Shape> > &refined) const {
 
 #include "api.h"
 #include "paramset.h"
-void makePBRTSceneFile(string lsystem, float delta){
+void makePBRTSceneFile(string lsystem, float delta, float cylinderRadius){
 	ParamSet params;
-	float cylRadius = 1.0;
 	float drawSize = 1.0;
 	float shrinkFactor = 1.4;
 	float zero = 0.0;
@@ -80,7 +72,7 @@ void makePBRTSceneFile(string lsystem, float delta){
 		switch(lsystem[i]){
 			case 'F':
 			case 'f':
-				params.AddFloat("radius", &cylRadius, 1);
+				params.AddFloat("radius", &cylinderRadius, 1);
 				params.AddFloat("zmin", &zero,1);
 				params.AddFloat("zmax", &drawSize,1);
 				pbrtShape("cylinder", params);
@@ -108,18 +100,16 @@ void makePBRTSceneFile(string lsystem, float delta){
 				pbrtRotate(180.0, 0.0, 1.0, 0.0);
 				break;
 			case '[':
-				cylRadius = cylRadius / shrinkFactor;
+				cylinderRadius = cylinderRadius / shrinkFactor;
 				pbrtAttributeBegin();
-				pbrtTranslate(0.0, 0.0, cylRadius);
+				pbrtTranslate(0.0, 0.0, cylinderRadius);
 				break;
 			case ']':
-				cylRadius = cylRadius * shrinkFactor;
+				cylinderRadius = cylinderRadius * shrinkFactor;
 				pbrtAttributeEnd();
 				break;
 			default:
-			// Ignoring symbol
-
-			break;
+				break;
 		}
 	}
 }
@@ -133,6 +123,7 @@ LSystem *CreateLSystemShape(const Transform *o2w, const Transform *w2o,
 	const string *rules = params.FindString("rules",&nr);
 	int steps = params.FindOneInt("steps", 1);
 	float delta = params.FindOneFloat("delta", 60);
+	float cylinderRadius = params.FindOneFloat("cylinderRadius", 1.0);
 	
 	char key;
 	string val;
@@ -144,6 +135,6 @@ LSystem *CreateLSystemShape(const Transform *o2w, const Transform *w2o,
 		cout << rule_map[key] << endl;
 	}
 	LSystem *s = new LSystem(o2w,w2o,reverseOrientation,axiom,rule_map,steps,delta);
-	makePBRTSceneFile(s->generated_system, s->delta);
+	makePBRTSceneFile(s->generated_system, s->delta, cylinderRadius);
 	return s;
 }
