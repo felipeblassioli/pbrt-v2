@@ -1,0 +1,18 @@
+LookAt 70 620 440 0 0 0 0 0 1 # Good for 3D models - manipulating the first coordinates zooms the camera
+Camera "perspective" "float fov" [40]
+
+Film "image" "integer xresolution" [1500] "integer yresolution" [1500]
+  "string filename" ["lsystem_treeD.png"]
+
+Sampler "lowdiscrepancy" "integer pixelsamples" [32]
+
+WorldBegin
+  LightSource "distant" "point from" [0.3 1 0.3] "point to" [0 0 0]
+
+  AttributeBegin
+
+    Shape "lsystem" "string axiom" ["X"] "string rules" ["X->F[+X]F[-X]+X" "F->FF"] "integer steps" [7] "float delta" [20.0]
+
+  AttributeEnd
+
+WorldEnd
