@@ -19,7 +19,7 @@ void LSystem::generate(){
 	map<char,string>::iterator it;
 	bool found;
 
-	cout << "# axiom: " << axiom << endl;
+	/*cout << "# axiom: " << axiom << endl;*/
 	string current = axiom;
 	string next = "";
 	for(int i=0;i<steps;i++){
@@ -38,7 +38,7 @@ void LSystem::generate(){
 		}
 		current = next;
 		next = "";
-		cout << "# " << current << endl;
+		/*cout << "# " << current << endl;*/
 	}
 	generated_system = current;
 }
@@ -132,7 +132,7 @@ LSystem *CreateLSystemShape(const Transform *o2w, const Transform *w2o,
 		key = rules[i][0];
 		val = rules[i].substr(3,rules[i].length());
 		rule_map[key] = val;
-		cout << rule_map[key] << endl;
+		/*cout << rule_map[key] << endl;*/
 	}
 	LSystem *s = new LSystem(o2w,w2o,reverseOrientation,axiom,rule_map,steps,delta);
 	makePBRTSceneFile(s->generated_system, s->delta, cylinderRadius);
