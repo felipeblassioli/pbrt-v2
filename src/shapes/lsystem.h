@@ -39,17 +39,20 @@
 // shapes/lsystem.h*
 #include <string>
 #include <map>
+#include <utility>
 #include "shape.h"
 
 using std::string;
 using std::map;
+using std::pair;
 
+typedef map<char, std::vector<pair<string,float> > > RuleMap;
 // LSystem Declarations
 class LSystem : public Shape {
 public:
     // LSystem Public Methods
     LSystem(const Transform *o2w, const Transform *w2o, bool ro, 
-        string a, map<char, string> r,int s, float d);
+        string a, RuleMap r,int s, float d);
     BBox ObjectBound() const;
     bool CanIntersect() const { return false; }
     void Refine(vector<Reference<Shape> > &refined) const;
@@ -58,7 +61,7 @@ public:
 protected:
     // LSystem Private Data
     string axiom;
-    map<char, string> rules;
+    RuleMap rules;
     int steps;
 
     void generate();

@@ -3,11 +3,14 @@
 #include "shapes/cylinder.h"
 #include "paramset.h"
 #include <iostream>
+/*#include <random>*/
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
 LSystem::LSystem(const Transform *o2w, const Transform *w2o, bool ro,
-	string a, map<char, string> r, int s, float d) : Shape(o2w, w2o, ro) {
+	string a, RuleMap r, int s, float d) : Shape(o2w, w2o, ro) {
 	axiom = a;
 	rules = r;
 	steps = s;
@@ -15,19 +18,54 @@ LSystem::LSystem(const Transform *o2w, const Transform *w2o, bool ro,
 	generate();
 }
 
+/*double rand(){
+	std::default_random_engine generator;
+	std::uniform_real_distribution<double> distribution(0.0,1.0);
+	return distribution(generator);
+}*/
+
+
+static int initTime = 1;
 void LSystem::generate(){
-	map<char,string>::iterator it;
+	RuleMap::iterator it;
 	bool found;
+	float randomNumber;
+	float begin,end;
+
+	if(initTime){
+		srand(time(NULL));
+		initTime = 0;
+	}
 
 	/*cout << "# axiom: " << axiom << endl;*/
 	string current = axiom;
 	string next = "";
+	string replacement;
 	for(int i=0;i<steps;i++){
 		for(size_t j=0; j<current.length();j++){
 			found = false;
 			for(it = rules.begin(); it != rules.end(); ++it){
 				if(current[j] == it->first){
-					next = next + it->second;
+					if(rules[it->first].size() > 1){
+						/* Choose among possibilities */
+						randomNumber = ((double) rand() / (RAND_MAX));
+						/*cout << randomNumber << endl;*/
+						begin = end = 0.0;
+						for(size_t j=0; j<rules[it->first].size();j++){
+							end += it->second[j].second;
+							/*cout << begin << " " << end << endl;*/
+							if(randomNumber > begin && randomNumber < end){
+								replacement =  it->second[j].first;
+								/*cout << "got" << replacement << endl;*/
+								break;
+							}else{
+								begin = end;
+							}
+						}
+					}else{
+						replacement = it->second[0].first;
+					}
+					next = next + replacement;
 					found = true;
 					break;
 				}
@@ -41,6 +79,7 @@ void LSystem::generate(){
 		/*cout << "# " << current << endl;*/
 	}
 	generated_system = current;
+	cout << "# " << generated_system << endl;
 }
 
 BBox LSystem::ObjectBound() const {
@@ -117,7 +156,7 @@ void makePBRTSceneFile(string lsystem, float delta, float cylinderRadius){
 LSystem *CreateLSystemShape(const Transform *o2w, const Transform *w2o,
         bool reverseOrientation, const ParamSet &params){
 	int nr;
-	map<char, string> rule_map;
+	RuleMap rule_map;
 
 	string axiom = params.FindOneString("axiom", "B");
 	const string *rules = params.FindString("rules",&nr);
@@ -131,8 +170,20 @@ LSystem *CreateLSystemShape(const Transform *o2w, const Transform *w2o,
 	for(int i=0; i<nr;i++){
 		key = rules[i][0];
 		val = rules[i].substr(3,rules[i].length());
-		rule_map[key] = val;
+
+		rule_map[key].push_back(make_pair (val,0.33));
+/*		if(rule_map.count(key)){
+			rule_map[key].push_back(make_pair (10,20));
+		}else{
+			rule_map[key] = 
+		}*/
 		/*cout << rule_map[key] << endl;*/
+	}
+	for(RuleMap::iterator it = rule_map.begin(); it != rule_map.end(); ++it){
+		cout << it->first << endl;
+		for(size_t s = 0; s < it->second.size(); s++){
+			cout << "\t" << it->second[s].first << endl;
+		}
 	}
 	LSystem *s = new LSystem(o2w,w2o,reverseOrientation,axiom,rule_map,steps,delta);
 	makePBRTSceneFile(s->generated_system, s->delta, cylinderRadius);

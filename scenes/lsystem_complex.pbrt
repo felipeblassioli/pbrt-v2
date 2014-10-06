@@ -10,32 +10,200 @@ WorldBegin
   LightSource "distant" "point from" [0.3 1 0.3] "point to" [0 0 0]
 
   AttributeBegin
-
-    Shape "lsystem" "string axiom" ["A"] "string rules" ["A->[&FL!A]/////`[&FL!A]///////`[&FL!A]" "F->S ///// F" "L->[```^^{-f+f+f-|-f+f+f}]" "S->F L"] "integer steps" [7] "float delta" [22.5]
+#lsystem_treeA
+	Translate 60 5 -20
+	Scale 0.6 0.6 0.6
+	Rotate 180 0 0 1
+    Shape "lsystem" "string axiom" ["F"] "string rules" ["F->F[+F]F[-F]F"] "integer steps" [5] "float delta" [25.7]
 
   AttributeEnd
 
   AttributeBegin
+#lsystem_treeA
+	Translate -60 3 -55
+	Scale 0.6 0.6 0.6
+    Shape "lsystem" "string axiom" ["F"] "string rules" ["F->F[+F]F[-F]F"] "integer steps" [5] "float delta" [25.7]
 
-  	Translate 35 0 0
-    Shape "lsystem" "string axiom" ["A"] "string rules" ["A->[&FL!A]/////`[&FL!A]///////`[&FL!A]" "F->S ///// F" "L->[```^^{-f+f+f-|-f+f+f}]" "S->F L"] "integer steps" [7] "float delta" [22.5]
-  
-  AttributeEnd
-
-
-  AttributeBegin
-
-  	Translate 7 -35 -10
-    Shape "lsystem" "string axiom" ["A"] "string rules" ["A->[&FL!A]/////`[&FL!A]///////`[&FL!A]" "F->S ///// F" "L->[```^^{-f+f+f-|-f+f+f}]" "S->F L"] "integer steps" [7] "float delta" [22.5]
-  
   AttributeEnd
 
   AttributeBegin
+#lsystem_treeB
+	Translate -40 10 -30
+	Rotate 180 0 0 1
+	Scale 0.8 0.8 0.8
+    Shape "lsystem" "string axiom" ["F"] "string rules" ["F->F[+F]F[-F][F]"] "integer steps" [5] "float delta" [20]
 
-    Translate -65 -35 -10
+  AttributeEnd
 
+  AttributeBegin
+#lsystem_treeB
+	Translate 30 10 -60
+	Rotate 180 0 0 1
+	Scale 0.6 0.6 0.6
+    Shape "lsystem" "string axiom" ["F"] "string rules" ["F->F[+F]F[-F][F]"] "integer steps" [5] "float delta" [20]
+
+  AttributeEnd
+
+  AttributeBegin
+#lsystem_treeB
+	Translate -60 -15 0
+	Rotate 180 0 0 1
+	Scale 0.8 0.8 0.8
+    Shape "lsystem" "string axiom" ["F"] "string rules" ["F->F[+F]F[-F][F]"] "integer steps" [5] "float delta" [20]
+
+  AttributeEnd
+
+  AttributeBegin
+#lsystem_treeB
+	Translate -65 -15 10
+	Scale 0.7 0.7 0.7
+    Shape "lsystem" "string axiom" ["F"] "string rules" ["F->F[+F]F[-F][F]"] "integer steps" [5] "float delta" [20]
+
+  AttributeEnd
+
+  AttributeBegin
+#lsystem_treeC
+	Translate 0 0 -90
+	Rotate 170 0 0 1
+    Shape "lsystem" "string axiom" ["F"] "string rules" ["F->FF-[-F+F+F]+[+F-F-F]"] "integer steps" [4] "float delta" [22.5]
+
+  AttributeEnd
+
+  AttributeBegin
+#lsystem_treeC
+	Translate 30 0 -20
+    Shape "lsystem" "string axiom" ["F"] "string rules" ["F->FF-[-F+F+F]+[+F-F-F]"] "integer steps" [4] "float delta" [22.5]
+
+  AttributeEnd
+
+  AttributeBegin
+#lsystem_treeC
+	Translate 20 0 -80
+    Shape "lsystem" "string axiom" ["F"] "string rules" ["F->FF-[-F+F+F]+[+F-F-F]"] "integer steps" [4] "float delta" [22.5]
+
+  AttributeEnd
+
+  AttributeBegin
+#lsystem_treeC
+	Translate -30 0 30
+    Shape "lsystem" "string axiom" ["F"] "string rules" ["F->FF-[-F+F+F]+[+F-F-F]"] "integer steps" [4] "float delta" [22.5]
+
+  AttributeEnd
+
+  AttributeBegin
+#lsystem_treeC
+	Translate -20 35 -65
+	Rotate 180 0 0 1
+    Shape "lsystem" "string axiom" ["F"] "string rules" ["F->FF-[-F+F+F]+[+F-F-F]"] "integer steps" [4] "float delta" [22.5]
+
+  AttributeEnd
+
+  AttributeBegin
+#lsystem_treeD
+	Scale 0.3 0.3 0.3
+	Translate -70 0 35
+    Shape "lsystem" "string axiom" ["X"] "string rules" ["X->F[+X]F[-X]+X" "F->FF"] "integer steps" [7] "float delta" [20.0]
+
+  AttributeEnd
+
+  AttributeBegin
+#lsystem_treeE
+	Translate 0 0 25
+	Scale 0.5 0.5 0.3
+    Shape "lsystem" "string axiom" ["X"] "string rules" ["X->F[+X][-X]FX" "F->FF"] "integer steps" [7] "float delta" [25.7]
+
+  AttributeEnd
+
+  AttributeBegin
+#lsystem_treeF
+	Translate 10 10 0
+	Scale 0.8 0.8 0.8
     Shape "lsystem" "string axiom" ["X"] "string rules" ["X->F-[[X]+X]+F[+FX]-X" "F->FF"] "integer steps" [5] "float delta" [22.5]
 
+  AttributeEnd
+
+  AttributeBegin
+#lsystem_treeF
+	Translate -10 10 -20
+	Rotate 180 0 0 1
+	Scale 0.7 0.7 0.7 
+    Shape "lsystem" "string axiom" ["X"] "string rules" ["X->F-[[X]+X]+F[+FX]-X" "F->FF"] "integer steps" [5] "float delta" [22.5]
+
+  AttributeEnd
+
+  AttributeBegin
+#lsystem_bush
+	Translate 0 -80 -20
+    Shape "lsystem" "string axiom" ["A"] "string rules" ["A->[&FL!A]/////`[&FL!A]///////`[&FL!A]" "F->S ///// F" "L->[```^^{-f+f+f-|-f+f+f}]" "S->F L"] "integer steps" [7] "float delta" [22.5]
+
+  AttributeEnd
+
+  AttributeBegin
+#lsystem_bush
+  	Translate 35 -80 -20
+    Shape "lsystem" "string axiom" ["A"] "string rules" ["A->[&FL!A]/////`[&FL!A]///////`[&FL!A]" "F->S ///// F" "L->[```^^{-f+f+f-|-f+f+f}]" "S->F L"] "integer steps" [7] "float delta" [22.5]
+  
+  AttributeEnd
+
+  AttributeBegin
+#lsystem_bush
+  	Translate 7 -115 -30
+    Shape "lsystem" "string axiom" ["A"] "string rules" ["A->[&FL!A]/////`[&FL!A]///////`[&FL!A]" "F->S ///// F" "L->[```^^{-f+f+f-|-f+f+f}]" "S->F L"] "integer steps" [7] "float delta" [22.5]
+  
+  AttributeEnd
+
+  AttributeBegin
+#lsystem_bush
+  	Translate -50 10 -50
+    Shape "lsystem" "string axiom" ["A"] "string rules" ["A->[&FL!A]/////`[&FL!A]///////`[&FL!A]" "F->S ///// F" "L->[```^^{-f+f+f-|-f+f+f}]" "S->F L"] "integer steps" [7] "float delta" [22.5]
+  
+  AttributeEnd
+
+  AttributeBegin
+#lsystem_bush
+	Rotate 180 0 0 1
+  	Translate -50 10 -10
+    Shape "lsystem" "string axiom" ["A"] "string rules" ["A->[&FL!A]/////`[&FL!A]///////`[&FL!A]" "F->S ///// F" "L->[```^^{-f+f+f-|-f+f+f}]" "S->F L"] "integer steps" [7] "float delta" [22.5]
+  
+  AttributeEnd
+
+  AttributeBegin
+#lsystem_bush
+  	Translate 60 0 -50
+    Shape "lsystem" "string axiom" ["A"] "string rules" ["A->[&FL!A]/////`[&FL!A]///////`[&FL!A]" "F->S ///// F" "L->[```^^{-f+f+f-|-f+f+f}]" "S->F L"] "integer steps" [7] "float delta" [22.5]
+  
+  AttributeEnd
+
+  AttributeBegin
+#lsystem_bush
+  	Translate 30 0 -40
+	Rotate 180 0 0 1
+    Shape "lsystem" "string axiom" ["A"] "string rules" ["A->[&FL!A]/////`[&FL!A]///////`[&FL!A]" "F->S ///// F" "L->[```^^{-f+f+f-|-f+f+f}]" "S->F L"] "integer steps" [7] "float delta" [22.5]
+  
+  AttributeEnd
+
+  AttributeBegin
+#lsystem_bush
+  	Translate 30 0 10
+	Scale 1 0.9 1
+    Shape "lsystem" "string axiom" ["A"] "string rules" ["A->[&FL!A]/////`[&FL!A]///////`[&FL!A]" "F->S ///// F" "L->[```^^{-f+f+f-|-f+f+f}]" "S->F L"] "integer steps" [7] "float delta" [22.5]
+  
+  AttributeEnd
+
+  AttributeBegin
+#lsystem_bush
+  	Translate 60 0 -25
+	Scale 0.9 0.9 0.8
+    Shape "lsystem" "string axiom" ["A"] "string rules" ["A->[&FL!A]/////`[&FL!A]///////`[&FL!A]" "F->S ///// F" "L->[```^^{-f+f+f-|-f+f+f}]" "S->F L"] "integer steps" [7] "float delta" [22.5]
+  
+  AttributeEnd
+
+  AttributeBegin
+#lsystem_bush
+  	Translate -20 0 5
+	Scale 0.9 0.9 0.8
+    Shape "lsystem" "string axiom" ["A"] "string rules" ["A->[&FL!A]/////`[&FL!A]///////`[&FL!A]" "F->S ///// F" "L->[```^^{-f+f+f-|-f+f+f}]" "S->F L"] "integer steps" [7] "float delta" [22.5]
+  
   AttributeEnd
 
 WorldEnd
