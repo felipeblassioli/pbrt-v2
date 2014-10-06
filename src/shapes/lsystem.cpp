@@ -79,7 +79,7 @@ void LSystem::generate(){
 		/*cout << "# " << current << endl;*/
 	}
 	generated_system = current;
-	cout << "# " << generated_system << endl;
+	/*cout << "# " << generated_system << endl;*/
 }
 
 BBox LSystem::ObjectBound() const {
@@ -172,17 +172,15 @@ LSystem *CreateLSystemShape(const Transform *o2w, const Transform *w2o,
 		val = rules[i].substr(3,rules[i].length());
 
 		rule_map[key].push_back(make_pair (val,0.33));
-/*		if(rule_map.count(key)){
-			rule_map[key].push_back(make_pair (10,20));
-		}else{
-			rule_map[key] = 
-		}*/
-		/*cout << rule_map[key] << endl;*/
 	}
+	/* Calculate probabilities */
+	size_t sz;
 	for(RuleMap::iterator it = rule_map.begin(); it != rule_map.end(); ++it){
-		cout << it->first << endl;
-		for(size_t s = 0; s < it->second.size(); s++){
-			cout << "\t" << it->second[s].first << endl;
+		/*cout << it->first << endl;*/
+		sz = it->second.size();
+		for(size_t s = 0; s < sz; s++){
+			it->second[s].second = (float)(1.0/sz);
+			/*cout << "\t" << it->second[s].first << " - " << it->second[s].second << endl;*/
 		}
 	}
 	LSystem *s = new LSystem(o2w,w2o,reverseOrientation,axiom,rule_map,steps,delta);
